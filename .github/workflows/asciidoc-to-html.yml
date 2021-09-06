@@ -1,0 +1,31 @@
+name: asciidoc to html
+
+on:
+  push:
+    branches: [ main ]
+
+  workflow_dispatch:
+
+jobs:
+  asciidoc-to-html:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+
+      - name: setup ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 2.6
+
+      - name: install asciidoctor
+        run: gem install asciidoctor
+
+      - run: asciidoctor -D $GITHUB_WORKSPACE/docs -o index.html $GITHUB_WORKSPACE/src/main.adoc
+
+      - name: deploy
+        uses: JamesIves/github-pages-deploy-action@4.1.4
+        with:
+          branch: gh-pages
+          folder: docs

@@ -1,0 +1,10 @@
+= GitHub Actions の Sample
+:toc: left
+:toclevels: 5
+:icons: font
+:source-highlighter: highlightjs
+:prewrap!:
+
+== 内容
+
+GitHub Actions の Sample です。
