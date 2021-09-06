@@ -445,7 +445,11 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
-<li><a href="#_内容">内容</a></li>
+<li><a href="#_内容">内容</a>
+<ul class="sectlevel2">
+<li><a href="#_action_の定義ファイル">action の定義ファイル</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
@@ -456,12 +460,51 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="paragraph">
 <p>GitHub Actions の Sample です。</p>
 </div>
+<div class="sect2">
+<h3 id="_action_の定義ファイル">action の定義ファイル</h3>
+<div class="listingblock">
+<div class="title">サンプル</div>
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-yml hljs" data-lang="yml">name: asciidoc to html
+
+on:
+  push:
+    branches: [ main ]
+
+  workflow_dispatch:
+
+jobs:
+  asciidoc-to-html:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+
+      - name: setup ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 2.6
+
+      - name: install asciidoctor
+        run: gem install asciidoctor
+
+      - run: asciidoctor -D $GITHUB_WORKSPACE/docs -o index.html $GITHUB_WORKSPACE/src/main.adoc
+
+      - name: deploy
+        uses: JamesIves/github-pages-deploy-action@4.1.4
+        with:
+          branch: gh-pages
+          folder: docs</code></pre>
+</div>
+</div>
+</div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-09-06 13:02:40 UTC
+Last updated 2021-09-06 13:12:15 UTC
 </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
